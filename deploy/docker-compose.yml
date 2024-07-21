@@ -1,4 +1,4 @@
-# docker buildx bake -f deploy/docker-compose.yml in root directory
+# docker buildx bake -f docker-compose.yml
 
 services:
   letsencrypt:
@@ -11,10 +11,10 @@ services:
     restart: always
   sish:
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
-    image: rise-tools/sish:latest
-    container_name: sish
+    image: rise-tools-sish:latest
+    container_name: rise-sish
     depends_on:
       - letsencrypt
     volumes:
