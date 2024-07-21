@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"context"
 	"crypto/ed25519"
+	"crypto/md5"
 	"crypto/rand"
 	"encoding/json"
 	"encoding/pem"
@@ -887,7 +888,11 @@ func GetOpenHost(addr string, state *State, sshConn *SSHConnection) (*url.URL, *
 			log.Println("Error looking up txt records for domain:", addr)
 		}
 
-		proposedHost := fmt.Sprintf("%s%s.%s", addr, hostExtension, viper.GetString("domain"))
+		hash := md5.New()
+		hash.Write([]byte(addr))
+		hashedAddr := fmt.Sprintf("%x", hash.Sum(nil))
+		proposedHost := fmt.Sprintf("%s%s.%s", hashedAddr, hostExtension, viper.GetString("domain"))
+		
 		domainParts := strings.Join(strings.Split(addr, ".")[1:], ".")
 
 		if dnsMatch || (viper.GetBool("bind-any-host") && strings.Contains(addr, ".")) || inList(domainParts, strings.FieldsFunc(viper.GetString("bind-hosts"), CommaSplitFields)) {
