@@ -1,4 +1,4 @@
-version: '3.7'
+# docker buildx bake -f deploy/docker-compose.yml in root directory
 
 services:
   letsencrypt:
@@ -10,9 +10,12 @@ services:
       - ./le-config.yml:/etc/dnsrobocert/config.yml
     restart: always
   sish:
-    image: antoniomika/sish:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rise-tools/sish:latest
     container_name: sish
-    depends_on: 
+    depends_on:
       - letsencrypt
     volumes:
       - ./letsencrypt:/etc/letsencrypt
