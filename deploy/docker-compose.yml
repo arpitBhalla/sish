@@ -1,5 +1,3 @@
-# docker buildx bake -f docker-compose.yml
-
 services:
   letsencrypt:
     image: adferrand/dnsrobocert:latest
