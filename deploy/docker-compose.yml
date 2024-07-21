@@ -14,7 +14,7 @@ services:
       context: ..
       dockerfile: Dockerfile
     image: rise-tools-sish:latest
-    container_name: rise-sish
+    container_name: rise-tools-sish
     depends_on:
       - letsencrypt
     volumes:
